@@ -285,7 +285,7 @@ cd $GOPATH/src/github.com/Dliv3/Venom
 
 - 与regeorg联动
 - 多个admin节点同时对网络进行管理
-- 节点间通信流量加密
+- 节点间通信流量加密 - add by 00theway
 - socks5对udp的支持
 - 与meterpreter联动 (待定)
 - RESTful API
