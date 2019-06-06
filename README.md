@@ -1,6 +1,6 @@
 ## Venom - A Multi-hop Proxy for Penetration Testers
 
-[简体中文](README.md)　｜　[English](README-en.md)
+[原项目地址](https://github.com/Dliv3/Venom)
 
 Venom是一款为渗透测试人员设计的使用Go开发的多级代理工具。
 
@@ -285,13 +285,13 @@ cd $GOPATH/src/github.com/Dliv3/Venom
 
 - 与regeorg联动
 - 多个admin节点同时对网络进行管理
-- 节点间通信流量加密
+- 节点间通信流量加密 - add by 00theway
 - socks5对udp的支持
 - 与meterpreter联动 (待定)
 - RESTful API
 
 ## 致谢
-
+https://github.com/Dliv3/Venom
 - [rootkiter#Termite](https://github.com/rootkiter/Termite)
 - [ring04h#s5.go](https://github.com/ring04h/s5.go)
 - [n1nty#远程遥控 IPTables 进行端口复用](https://threathunter.org/topic/594545184ea5b2f5516e2033)
