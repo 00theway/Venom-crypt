@@ -17,39 +17,46 @@ type secureConn struct {
 	input    bytes.Reader
 }
 
+
+func (p * secureConn) ReciveMsgbuf() (int,error){
+	var msgSize uint32
+	var decrypted []byte
+	var msgSizeBuf []byte
+	var msgBuf []byte
+
+	msgSizeBuf = make([]byte, p.overhead)
+	_, err := p.Conn.Read(msgSizeBuf)
+	if err != nil {
+		return 0, err
+	}
+	msgSize = binary.LittleEndian.Uint32(msgSizeBuf)
+
+	msgBuf = make([]byte, msgSize)
+	_, err = p.Conn.Read(msgBuf)
+	if err != nil {
+		return 0, err
+	}
+
+	if msgSize != 0 {
+		decrypted, err = p.crypt.Decrypt(decrypted, msgBuf)
+		if err != nil {
+			return 0, err
+		}
+	}
+	p.input.Reset(decrypted)
+	return 0, nil
+}
+
 func (p *secureConn) Read(buf []byte) (int, error) {
 	if len(buf) == 0 {
-		// Put this after Handshake, in case people were calling
-		// Read(nil) for the side effect of the Handshake.
 		return 0, nil
 	}
 
 	for p.input.Len() == 0 {
-		var msgSize uint32
-		var decrypted []byte
-		var msgSizeBuf []byte
-		var msgBuf []byte
-
-		msgSizeBuf = make([]byte, p.overhead)
-		_, err := p.Conn.Read(msgSizeBuf)
+		_,err := p.ReciveMsgbuf()
 		if err != nil {
 			return 0, err
 		}
-		msgSize = binary.LittleEndian.Uint32(msgSizeBuf)
-
-		msgBuf = make([]byte, msgSize)
-		_, err = p.Conn.Read(msgBuf)
-		if err != nil {
-			return 0, err
-		}
-
-		if msgSize != 0 {
-			decrypted, err = p.crypt.Decrypt(decrypted, msgBuf)
-			if err != nil {
-				return 0, err
-			}
-		}
-		p.input.Reset(decrypted)
 	}
 
 	n, _ := p.input.Read(buf)

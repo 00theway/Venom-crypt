@@ -58,7 +58,7 @@ func InitAgentHandler() {
 
 func handleSyncCmd() {
 	for {
-		// fmt.Println("Nodes", node.Nodes)
+		//fmt.Println("Nodes", node.Nodes)
 
 		var packetHeader protocol.PacketHeader
 		var syncPacket protocol.SyncPacket
